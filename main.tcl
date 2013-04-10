@@ -3,8 +3,6 @@
 source int.tcl
 namespace eval bind { namespace export * }
 
-set CHANNEL "#bakka"
-
 bind pub - "!bakka" bind::chicken
 bind pub - "!test" bind::test
 bind pubm - * bind::catch_all
@@ -15,7 +13,7 @@ proc bind::catch_all {nick uhost hand chan text} {
 
 proc bind::test {nick host hand chan text} {
     set data [int::parse_file "txt/test"]
-    puthelp "PRIVMSG $::CHANNEL :[int::lrandom_element $data]"
+    putserv "PRIVMSG $chan :$nick [int::lrandom_element $data]"
 }
 
 proc bind::chicken {nick host hand chan text} {
@@ -33,7 +31,7 @@ proc bind::chicken {nick host hand chan text} {
         "   _|_"
 
     foreach line $chick {
-        puthelp "PRIVMSG $::CHANNEL : $line"
+        putserv "PRIVMSG $chan : $line"
     }
 }
 
