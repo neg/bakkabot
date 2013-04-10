@@ -36,3 +36,5 @@ foreach line $data {
 
 puts "Random index: [int::lrandom_index $data]"
 puts "Random element: [int::lrandom_element $data]"
+
+bind::catch_all myuser myhost myhand mychan mytest
