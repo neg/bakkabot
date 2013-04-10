@@ -1,10 +1,12 @@
 #!/usr/bin/tclsh
 
+namespace eval bind { namespace export * }
+
 set CHANNEL "#bakka"
 
-bind pub - "!bakka" chicken
+bind pub - "!bakka" bind::chicken
 
-proc chicken {nick host hand chan text} {
+proc bind::chicken {nick host hand chan text} {
     if {$text == ""} {
         set msg "BAKKA !!!!"
     } else {
