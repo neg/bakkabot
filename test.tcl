@@ -27,3 +27,12 @@ source main.tcl
 
 # Test the chicken
 bind::chicken myuser myhost myhand mychan mytest
+
+# Read a test file and print it
+set data [int::parse_file "txt/test"]
+foreach line $data {
+    puts "test: $line"
+}
+
+puts "Random index: [int::lrandom_index $data]"
+puts "Random element: [int::lrandom_element $data]"

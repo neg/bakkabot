@@ -1,5 +1,6 @@
 #!/usr/bin/tclsh
 
+source int.tcl
 namespace eval bind { namespace export * }
 
 set CHANNEL "#bakka"
