@@ -6,6 +6,12 @@ namespace eval bind { namespace export * }
 set CHANNEL "#bakka"
 
 bind pub - "!bakka" bind::chicken
+bind pub - "!test" bind::test
+
+proc bind::test {nick host hand chan text} {
+    set data [int::parse_file "txt/test"]
+    puthelp "PRIVMSG $::CHANNEL :[int::lrandom_element $data]"
+}
 
 proc bind::chicken {nick host hand chan text} {
     if {$text == ""} {
