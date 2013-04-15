@@ -31,3 +31,16 @@ proc int::parse_file {name} {
     set data [lsearch -inline -all -not -exact $data ""]
     return $data
 }
+
+# Merge elements in lists of equal length
+proc int::merge {args} {
+    set base [lindex $args 0]
+    foreach list [lrange $args 1 end] {
+        set i 0
+        foreach elem $list {
+            set base [lreplace $base $i $i "[lindex $base $i] $elem"]
+            incr i
+        }
+    }
+    return $base
+}

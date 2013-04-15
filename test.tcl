@@ -26,7 +26,20 @@ proc bind {type none str do} {
 source main.tcl
 
 # Test the chicken
-bind::chicken myuser myhost myhand mychan mytest
+bind::chicken myuser myhost myhand mychan ""
+bind::chicken myuser myhost myhand mychan "mytest"
+puts "2 chickens"
+bind::chicken myuser myhost myhand mychan "bakka"
+puts "2 chickens"
+bind::chicken myuser myhost myhand mychan "bakka word"
+puts "3 chickens"
+bind::chicken myuser myhost myhand mychan "bakka bakka word"
+puts "3 chickens"
+bind::chicken myuser myhost myhand mychan "bakka word bakka word2"
+puts "4 chickens"
+bind::chicken myuser myhost myhand mychan "bakka word bakka word2 bakka"
+puts "5 chickens"
+bind::chicken myuser myhost myhand mychan "bakka bakka bakka bakka"
 
 # Read a test file and print it
 set data [int::parse_file "txt/test"]
