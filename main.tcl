@@ -51,7 +51,7 @@ proc friday {nick chan} {
 
     # Read the file every time, to allow us to add stuff without restarting
     set data [int::parse_file "txt/friday.hidden"]
-    putserv "PRIVMSG $chan :$nick [int::lrandom_element $data]"
+    putserv "PRIVMSG $chan :$nick: [int::lrandom_element $data]"
 }
 
 puts "sourced main.tcl (bakka)"
