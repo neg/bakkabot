@@ -3,6 +3,7 @@
 source int.tcl
 namespace eval bind { namespace export * }
 
+set last_friday_time [clock seconds]
 bind pub - "!bakka" bind::chicken
 bind pub - "!test" bind::test
 bind pubm - * bind::catch_all
@@ -60,22 +61,26 @@ proc get_chicken {{text "BAKKA!!!"}} {
 }
 
 proc friday {nick chan} {
+    variable last_friday_time
+
     # Check if it's Friday
     set day [clock format [clock seconds] -format "%w"]
     if {$day != 5} {
         return
     }
 
-    # This should probably be made into something smarter and a back-off timer might also be needed.
-    # Not entirely sure about the tcl entropy either...
-    set rand [expr {int(rand()*10)} + 1]
-    if {$rand != 10} {
+    # Start by having a very low chance of printing directly after another
+    # message, increasing over time to always printing after about one hour.
+    set dt [expr [clock seconds] - $last_friday_time]
+    set f [expr $dt / 3600.0]
+    if { [expr rand()] >= [expr $f * $f] } {
         return
     }
 
     # Read the file every time, to allow us to add stuff without restarting
     set data [int::parse_file "txt/friday.hidden"]
     putserv "PRIVMSG $chan :$nick: [int::lrandom_element $data]"
+    set last_friday_time [clock seconds]
 }
 
 puts "sourced main.tcl (bakka)"
