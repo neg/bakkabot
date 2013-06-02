@@ -23,8 +23,8 @@ proc bind::chicken {nick host hand chan text} {
         set chick [get_chicken ""]
 
         # Separate bakka from other words
-        set bakka [lsearch -all $text "*bakka*"]
-        set text [lsearch -inline -all -not $text "*bakka*"]
+        set bakka [lsearch -all $text "bakka"]
+        set text [lsearch -inline -all -not $text "bakka"]
 
         # More then 2 bakka's? Add them without chicken output
         for {set i 0} {$i < [expr [llength $bakka] - 1]} {incr i} {
