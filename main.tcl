@@ -6,6 +6,7 @@ set SCRIPT_PATH [file dirname [file normalize [info script]]]
 set PRINT_DEBUG FALSE
 
 source "$SCRIPT_PATH/int.tcl"
+source "$SCRIPT_PATH/src/log.tcl"
 
 set last_friday_time [clock seconds]
 bind pub - "!bakka" bind::chicken
