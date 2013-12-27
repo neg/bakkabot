@@ -53,6 +53,11 @@ proc misc::parse_file {name} {
         exit
     }
 
+    if {![file exists $name]} {
+        putlog "File \"$name\" does not exist"
+        exit
+    }
+
     set fp [open $name r]
     set data [read $fp]
     close $fp
