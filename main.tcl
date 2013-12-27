@@ -5,7 +5,7 @@ namespace eval bind { namespace export * }
 set SCRIPT_PATH [file dirname [file normalize [info script]]]
 set PRINT_DEBUG FALSE
 
-source "$SCRIPT_PATH/int.tcl"
+source "$SCRIPT_PATH/src/misc.tcl"
 source "$SCRIPT_PATH/src/log.tcl"
 
 set last_friday_time [clock seconds]
@@ -27,14 +27,14 @@ proc bind::chicken {nick host hand chan text} {
 
         # More then 2 bakka's? Add them without chicken output
         for {set i 0} {$i < [expr [llength $bakka] - 1]} {incr i} {
-            set chick [int::lmerge $chick [get_chicken ""]]
+            set chick [misc::lmerge $chick [get_chicken ""]]
         }
 
         # Add the last chicken together with any potential non-bakka words
         if {$text == ""} {
-            set chick [int::lmerge $chick [get_chicken]]
+            set chick [misc::lmerge $chick [get_chicken]]
         } else {
-            set chick [int::lmerge $chick [get_chicken $text]]
+            set chick [misc::lmerge $chick [get_chicken $text]]
         }
 
     } elseif {$text == ""} {
@@ -77,8 +77,8 @@ proc friday {nick chan} {
     }
 
     # Read the file every time, to allow us to add stuff without restarting
-    set data [int::parse_file "txt/friday.hidden"]
-    putserv "PRIVMSG $chan :$nick: [int::lrandom_element $data]"
+    set data [misc::parse_file "txt/friday.hidden"]
+    putserv "PRIVMSG $chan :$nick: [misc::lrandom_element $data]"
     set last_friday_time [clock seconds]
 }
 

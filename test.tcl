@@ -42,12 +42,12 @@ puts "5 chickens"
 bind::chicken myuser myhost myhand mychan "bakka bakka bakka bakka"
 
 # Read a test file and print it
-set data [int::parse_file "txt/test"]
+set data [misc::parse_file "txt/test"]
 foreach line $data {
     puts "test: $line"
 }
 
-puts "Random index: [int::lrandom_index $data]"
-puts "Random element: [int::lrandom_element $data]"
+puts "Random index: [misc::lrandom_index $data]"
+puts "Random element: [misc::lrandom_element $data]"
 
 bind::catch_all myuser myhost myhand mychan mytest
