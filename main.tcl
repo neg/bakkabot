@@ -1,7 +1,9 @@
 #!/usr/bin/tclsh
 
-source int.tcl
 namespace eval bind { namespace export * }
+
+set SCRIPT_PATH [file dirname [file normalize [info script]]]
+source "$SCRIPT_PATH/int.tcl"
 
 set last_friday_time [clock seconds]
 bind pub - "!bakka" bind::chicken
