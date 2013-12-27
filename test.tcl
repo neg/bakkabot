@@ -41,6 +41,12 @@ chicken::bind myuser myhost myhand mychan "bakka word bakka word2 bakka"
 puts "5 chickens"
 chicken::bind myuser myhost myhand mychan "bakka bakka bakka bakka"
 
+# Test dict sorting
+set mydict [dict create a 1 b 2 c 3]
+puts "Dict reverse sorted by keys: [misc::dictkeysort $mydict -decreasing]"
+puts "Dict reverse sorted by values: [misc::dictvalsort $mydict -integer -decreasing]"
+
+
 # Read a test file and print it
 set data [misc::parse_file "txt/test"]
 foreach line $data {
