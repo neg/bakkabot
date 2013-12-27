@@ -50,4 +50,4 @@ foreach line $data {
 puts "Random index: [misc::lrandom_index $data]"
 puts "Random element: [misc::lrandom_element $data]"
 
-bind::catch_all myuser myhost myhand mychan mytest
+catch_all myuser myhost myhand mychan mytest
