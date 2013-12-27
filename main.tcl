@@ -7,16 +7,10 @@ source "$SCRIPT_PATH/int.tcl"
 
 set last_friday_time [clock seconds]
 bind pub - "!bakka" bind::chicken
-bind pub - "!test" bind::test
 bind pubm - * bind::catch_all
 
 proc bind::catch_all {nick uhost hand chan text} {
     friday $nick $chan
-}
-
-proc bind::test {nick host hand chan text} {
-    set data [int::parse_file "txt/test"]
-    putserv "PRIVMSG $chan :$nick [int::lrandom_element $data]"
 }
 
 proc bind::chicken {nick host hand chan text} {
