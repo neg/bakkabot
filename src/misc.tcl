@@ -14,6 +14,19 @@ proc misc::lrandom_element {mylist} {
     return [lindex $mylist $hit]
 }
 
+# Merge elements in lists of equal length
+proc misc::lmerge {args} {
+    set base [lindex $args 0]
+    foreach list [lrange $args 1 end] {
+        set i 0
+        foreach elem $list {
+            set base [lreplace $base $i $i "[lindex $base $i] $elem"]
+            incr i
+        }
+    }
+    return $base
+}
+
 # Parse a file, split it and remove empty lines
 proc misc::parse_file {name} {
     # Do some basic sanity checking on the filename
@@ -30,17 +43,4 @@ proc misc::parse_file {name} {
     # Remove empty lines..
     set data [lsearch -inline -all -not -exact $data ""]
     return $data
-}
-
-# Merge elements in lists of equal length
-proc misc::lmerge {args} {
-    set base [lindex $args 0]
-    foreach list [lrange $args 1 end] {
-        set i 0
-        foreach elem $list {
-            set base [lreplace $base $i $i "[lindex $base $i] $elem"]
-            incr i
-        }
-    }
-    return $base
 }
