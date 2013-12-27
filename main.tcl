@@ -7,56 +7,14 @@ set PRINT_DEBUG FALSE
 
 source "$SCRIPT_PATH/src/misc.tcl"
 source "$SCRIPT_PATH/src/log.tcl"
+source "$SCRIPT_PATH/src/chicken.tcl"
 
 set last_friday_time [clock seconds]
-bind pub - "!bakka" bind::chicken
+bind pub - "!bakka" chicken::bind
 bind pubm - * bind::catch_all
 
 proc bind::catch_all {nick uhost hand chan text} {
     friday $nick $chan
-}
-
-proc bind::chicken {nick host hand chan text} {
-    if {[lsearch $text "*bakka*"] >= 0} {
-        # Print the first chicken without output (we know there will be more)
-        set chick [get_chicken ""]
-
-        # Separate bakka from other words
-        set bakka [lsearch -all $text "bakka"]
-        set text [lsearch -inline -all -not $text "bakka"]
-
-        # More then 2 bakka's? Add them without chicken output
-        for {set i 0} {$i < [expr [llength $bakka] - 1]} {incr i} {
-            set chick [misc::lmerge $chick [get_chicken ""]]
-        }
-
-        # Add the last chicken together with any potential non-bakka words
-        if {$text == ""} {
-            set chick [misc::lmerge $chick [get_chicken]]
-        } else {
-            set chick [misc::lmerge $chick [get_chicken $text]]
-        }
-
-    } elseif {$text == ""} {
-        set chick [get_chicken]
-    } else {
-        set chick [get_chicken $text]
-    }
-
-    foreach line $chick {
-        putserv "PRIVMSG $chan : $line"
-    }
-}
-
-proc get_chicken {{text "BAKKA!!!"}} {
-    lappend chick \
-        "    \\   " \
-        "    (o< $text" \
-        " \\_//)  " \
-        "  \_/_)  " \
-        "   _|_  "
-
-        return $chick
 }
 
 proc friday {nick chan} {
