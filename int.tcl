@@ -1,5 +1,19 @@
 namespace eval int { namespace export * }
 
+proc int::debug {msg} {
+    global PRINT_DEBUG
+    if {!$PRINT_DEBUG} {
+        return
+    }
+
+    if {[info level] > 1} {
+        set caller [info level [expr [info level] - 1]]
+        puts "debug $caller, $msg"
+    } else {
+        puts "debug, $msg"
+    }
+}
+
 # Return a random list index
 proc int::lrandom_index {mylist} {
     set len [llength $mylist]

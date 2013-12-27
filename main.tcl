@@ -3,6 +3,8 @@
 namespace eval bind { namespace export * }
 
 set SCRIPT_PATH [file dirname [file normalize [info script]]]
+set PRINT_DEBUG FALSE
+
 source "$SCRIPT_PATH/int.tcl"
 
 set last_friday_time [clock seconds]
