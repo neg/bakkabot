@@ -47,7 +47,7 @@ proc int::parse_file {name} {
 }
 
 # Merge elements in lists of equal length
-proc int::merge {args} {
+proc int::lmerge {args} {
     set base [lindex $args 0]
     foreach list [lrange $args 1 end] {
         set i 0

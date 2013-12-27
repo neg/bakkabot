@@ -26,14 +26,14 @@ proc bind::chicken {nick host hand chan text} {
 
         # More then 2 bakka's? Add them without chicken output
         for {set i 0} {$i < [expr [llength $bakka] - 1]} {incr i} {
-            set chick [int::merge $chick [get_chicken ""]]
+            set chick [int::lmerge $chick [get_chicken ""]]
         }
 
         # Add the last chicken together with any potential non-bakka words
         if {$text == ""} {
-            set chick [int::merge $chick [get_chicken]]
+            set chick [int::lmerge $chick [get_chicken]]
         } else {
-            set chick [int::merge $chick [get_chicken $text]]
+            set chick [int::lmerge $chick [get_chicken $text]]
         }
 
     } elseif {$text == ""} {
