@@ -27,6 +27,24 @@ proc misc::lmerge {args} {
     return $base
 }
 
+# Sort dict based on key
+proc misc::dictkeysort {dict args} {
+    set res {}
+    foreach key [lsort {*}$args [dict keys $dict]] {
+        dict set res $key [dict get $dict $key]
+    }
+    return $res
+}
+
+# Sort dict based on val
+proc misc::dictvalsort {dict args} {
+    set lst {}
+    dict for {key val} $dict {
+        lappend lst [list $key $val]
+    }
+    return [concat {*}[lsort -index 1 {*}$args $lst]]
+}
+
 # Parse a file, split it and remove empty lines
 proc misc::parse_file {name} {
     # Do some basic sanity checking on the filename
