@@ -7,14 +7,9 @@ bind pub - "!strecktop" streck::top
 
 set streck::logfile "$SCRIPT_PATH/db/strecklog"
 set streck::badwords [misc::parse_file "$SCRIPT_PATH/txt/badwords"]
-set streck::data [dict create]
 
 # Read back log if it exists
-if {[file exists $streck::logfile]} {
-    set log [open $streck::logfile r]
-    set streck::data [read $log]
-    close $log
-}
+set streck::data [misc::slurp_file $streck::logfile]
 
 proc streck::checkbad {nick chan text} {
     # Map to try to catch leetspeak and other obfuscations
@@ -35,9 +30,7 @@ proc streck::int::add {nick} {
     log::debug "adding streck to $nick"
     dict incr streck::data $nick
 
-    set log [open $streck::logfile w]
-    puts -nonewline $log $streck::data
-    close $log
+    misc::dump_data $streck::data $streck::logfile
 }
 
 proc streck::int::get {nick} {

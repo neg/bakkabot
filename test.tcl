@@ -56,4 +56,18 @@ foreach line $data {
 puts "Random index: [misc::lrandom_index $data]"
 puts "Random element: [misc::lrandom_element $data]"
 
+# Dump and slurp data-structures
+set data {}
+dict lappend data a "String"
+dict lappend data a "Another string"
+dict lappend data b "String"
+
+misc::dump_data $data "data.dump"
+set mirror [misc::slurp_file "data.dump"]
+if {$data == $mirror} {
+    puts "Slurp-dump match"
+} else {
+    puts "fail, slurp-dump mismatch"
+}
+
 catch_all myuser myhost myhand mychan mytest

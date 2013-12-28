@@ -45,19 +45,35 @@ proc misc::dictvalsort {dict args} {
     return [concat {*}[lsort -index 1 {*}$args $lst]]
 }
 
-# Parse a file, split it and remove empty lines
+# Parse a text file, split it and remove empty lines
 proc misc::parse_file {name} {
     if {![file exists $name]} {
         putlog "File \"$name\" does not exist"
         exit
     }
 
-    set fp [open $name r]
-    set data [read $fp]
-    close $fp
+    set data [misc::slurp_file $name]
 
     set data [split $data "\n"]
     # Remove empty lines..
     set data [lsearch -inline -all -not -exact $data ""]
     return $data
+}
+
+# Slurp file if exists
+proc misc::slurp_file {file} {
+    set data {}
+    if {[file exists $file]} {
+        set fd [open $file r]
+        set data [read $fd]
+        close $fd
+    }
+    return $data
+}
+
+# Dump any data to file (while remembering that everything is strings..)
+proc misc::dump_data {data file} {
+    set fd [open $file w]
+    puts -nonewline $fd $data
+    close $fd
 }
