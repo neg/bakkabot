@@ -3,6 +3,17 @@ namespace eval friday { namespace export * }
 # Initialize upon sourcing
 set friday::last [clock seconds]
 
+# Register your friday callbacks here
+lappend friday::callback friday::print_quote
+
+proc friday::print_quote {nick chan} {
+    global SCRIPT_PATH
+
+    # Read the file every time, to allow us to add stuff without restarting
+    set data [misc::parse_file "$SCRIPT_PATH/txt/friday"]
+    putserv "PRIVMSG $chan :$nick: [misc::lrandom_element $data]"
+}
+
 proc friday::bind {nick chan} {
     # Check if it's Friday
     set day [clock format [clock seconds] -format "%w"]
@@ -18,9 +29,8 @@ proc friday::bind {nick chan} {
         return
     }
 
-    # Read the file every time, to allow us to add stuff without restarting
-    set data [misc::parse_file "$SCRIPT_PATH/txt/friday.hidden"]
-    putserv "PRIVMSG $chan :$nick: [misc::lrandom_element $data]"
+    [misc::lrandom_element $friday::callback] $nick $chan
+
     set friday::last [clock seconds]
 }
 
