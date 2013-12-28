@@ -19,7 +19,7 @@ proc friday::bind {nick chan} {
     }
 
     # Read the file every time, to allow us to add stuff without restarting
-    set data [misc::parse_file "txt/friday.hidden"]
+    set data [misc::parse_file "$SCRIPT_PATH/txt/friday.hidden"]
     putserv "PRIVMSG $chan :$nick: [misc::lrandom_element $data]"
     set friday::last [clock seconds]
 }

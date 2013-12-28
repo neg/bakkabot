@@ -5,8 +5,8 @@ bind pub - "!streck" streck::streck
 bind pub - "!strecklist" streck::list
 bind pub - "!strecktop" streck::top
 
-set streck::logfile "db/strecklog"
-set streck::badwords [misc::parse_file "txt/badwords"]
+set streck::logfile "$SCRIPT_PATH/db/strecklog"
+set streck::badwords [misc::parse_file "$SCRIPT_PATH/txt/badwords"]
 set streck::data [dict create]
 
 # Read back log if it exists

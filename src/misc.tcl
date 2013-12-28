@@ -47,12 +47,6 @@ proc misc::dictvalsort {dict args} {
 
 # Parse a file, split it and remove empty lines
 proc misc::parse_file {name} {
-    # Do some basic sanity checking on the filename
-    if {![regexp {^txt/[a-z.]+$} $name]} {
-        putlog "Filename \"$name\" failed sanity check"
-        exit
-    }
-
     if {![file exists $name]} {
         putlog "File \"$name\" does not exist"
         exit
