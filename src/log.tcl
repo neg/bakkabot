@@ -7,7 +7,7 @@ proc log::debug {msg} {
     }
 
     if {[info level] > 1} {
-        set caller [info level [expr [info level] - 1]]
+        set caller [lindex [info level [expr [info level] - 1]] 0]
         puts "debug $caller, $msg"
     } else {
         puts "debug, $msg"
