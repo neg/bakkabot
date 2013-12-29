@@ -77,3 +77,13 @@ proc misc::dump_data {data file} {
     puts -nonewline $fd $data
     close $fd
 }
+
+proc misc::mkdir {args} {
+    foreach path $args {
+        if {[file isdirectory $path]} {
+            continue
+        }
+        file mkdir $path
+        log::debug "created $path"
+    }
+}
