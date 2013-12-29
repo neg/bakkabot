@@ -1,7 +1,7 @@
 #!/usr/bin/tclsh
 
 set SCRIPT_PATH [file dirname [file normalize [info script]]]
-set PRINT_DEBUG FALSE
+set PRINT_DEBUG TRUE
 
 source "$SCRIPT_PATH/src/misc.tcl"
 source "$SCRIPT_PATH/src/log.tcl"
