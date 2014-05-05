@@ -87,3 +87,11 @@ proc misc::mkdir {args} {
         log::debug "created $path"
     }
 }
+
+proc misc::get_rand_int {max} {
+    return [expr int(rand()*$max)]
+}
+
+proc misc::get_rand_str {length} {
+    return [subst [string repeat {[format %c [expr {97 + int(rand() * 26)}]]} $length]]
+}
