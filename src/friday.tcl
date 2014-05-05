@@ -18,7 +18,7 @@ proc friday::bind {nick chan} {
     # Check if it's Friday
     set day [clock format [clock seconds] -format "%w"]
     if {$day != 5} {
-        return
+        return false
     }
 
     # Start by having a very low chance of printing directly after another
@@ -26,11 +26,12 @@ proc friday::bind {nick chan} {
     set dt [expr [clock seconds] - $friday::last]
     set f [expr $dt / 3600.0]
     if { [expr rand()] >= [expr $f * $f] } {
-        return
+        return false
     }
 
     [misc::lrandom_element $friday::callback] $nick $chan
 
     set friday::last [clock seconds]
+    return true
 }
 
