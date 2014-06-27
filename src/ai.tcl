@@ -129,12 +129,25 @@ proc ai::stupid {nick chan text} {
 proc ai::learn {nick chan text} {
     set text [string tolower $text]
 
-	# Search for AI mark
-	set mark [lsearch $text $ai::mark]
-    set topic [lindex $text $mark-1]
-    if {($mark > 0) && ([lsearch $ai::blacklist $topic] < 0)} {
-        ai::int::learn $mark $topic $text
+    # Search for AI mark
+    set mark [lsearch $text $ai::mark]
+    if {$mark <= 0} {
+        return
     }
+
+    set topic [lindex $text $mark-1]
+
+    if {[lsearch $ai::blacklist $topic] >= 0} {
+        log::debug "ignoring blacklisted topic \"$topic\""
+        return
+    }
+    if {[string match "*:" $topic]} {
+        # TODO: We should use this to our advantage, but we need to treat it specailly
+        log::debug "ignoring topic that could be a nickname \"$topic\""
+        return
+    }
+
+    ai::int::learn $mark $topic $text
 }
 
 proc ai::talk {nick chan text} {
