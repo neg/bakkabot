@@ -10,6 +10,7 @@ source "$SCRIPT_PATH/src/chicken.tcl"
 source "$SCRIPT_PATH/src/friday.tcl"
 source "$SCRIPT_PATH/src/streck.tcl"
 source "$SCRIPT_PATH/src/ai.tcl"
+source "$SCRIPT_PATH/src/poll.tcl"
 
 bind pub - "!bakka" chicken::bind
 bind pub - "!streck" streck::add
@@ -17,6 +18,10 @@ bind pub - "!strecklist" streck::list
 bind pub - "!strecktop" streck::top
 bind pub - "!agree" stage::agree
 bind pub - "!disagree" stage::disagree
+bind pub - "!vote" poll::vote
+bind pub - "!poll" poll::init
+bind pub - "!polls" poll::plist
+bind pub - "!status" poll::status
 bind pub - "!ai" ai::command
 bind pubm - * catch_all
 
