@@ -165,7 +165,7 @@ proc ai::learn {nick chan text} {
 proc ai::talk {nick chan text} {
     set text [string tolower $text]
 
-    # Only talk on friday, TODO: Break this out and align with friday::
+    # Only talk on friday
     set day [clock format [clock seconds] -format "%w"]
     if {$day != 5} {
         return
