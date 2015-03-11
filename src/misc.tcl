@@ -71,6 +71,11 @@ proc misc::slurp_file {file} {
     return $data
 }
 
+# Get full weekday name (Monday, Tuesday, etc.)
+proc misc::get_day { } {
+    return [string tolower [clock format [clock seconds] -format %A]]
+}
+
 # Dump any data to file (while remembering that everything is strings..)
 proc misc::dump_data {data file} {
     set fd [open $file w]
