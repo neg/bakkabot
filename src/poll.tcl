@@ -115,7 +115,7 @@ proc poll::vote {nick host hand chan text} {
     dict set info votes $tmp
 
     dict lappend info voted-nicks $nick
-    dict lappend info voted-hosts $nick
+    dict lappend info voted-hosts $host
     dict set poll::data $id $info
 
     set vote_cnt [llength [dict get $info "voted-nicks"]]
