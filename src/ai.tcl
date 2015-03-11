@@ -27,6 +27,7 @@ proc ai::int::remove {topic index} {
 }
 
 proc ai::int::learn {mark topic text} {
+    set MIN_OPINION_LEN 3
 	set breaks [lsearch -all -regexp $text {[\.|!|\\?]}]
     set end [llength $text]
 
@@ -38,6 +39,10 @@ proc ai::int::learn {mark topic text} {
     }
 
     set opinion [lrange $text $mark $end]
+    if {[expr [string length $opinion] - [string length $ai::mark] - 1] < $MIN_OPINION_LEN} {
+        putlog "ai, ignoring short opinion \"$opinion\" about \"$topic\""
+        return FALSE
+    }
 
     log::debug "new opinion about \"$topic\" : \"$opinion\""
     dict lappend ai::brain $topic $opinion
