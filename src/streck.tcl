@@ -20,8 +20,10 @@ proc streck::checkbad {nick chan text} {
             putserv "PRIVMSG $chan :$msg"
 
             dict incr $streck::data [string tolower $nick]
+            return TRUE
         }
     }
+    return FALSE
 }
 
 proc streck::int::add {nick} {

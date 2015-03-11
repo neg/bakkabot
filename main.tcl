@@ -25,9 +25,15 @@ bind pub - "!ai" ai::command
 bind pubm - * catch_all
 
 proc catch_all {nick uhost hand chan text} {
-    streck::checkbad $nick $chan $text
-    ai::talk $nick $chan $text
-    ai::learn $nick $chan $text
+    if {[ai::learn $nick $chan $text]} {
+        return
+    }
+    if {[streck::checkbad $nick $chan $text]} {
+        return
+    }
+    if {[ai::talk $nick $chan $text]} {
+        return
+    }
 }
 
 puts "sourced main.tcl (bakka)"

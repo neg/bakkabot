@@ -47,6 +47,8 @@ proc ai::int::learn {mark topic text} {
     log::debug "new opinion about \"$topic\" : \"$opinion\""
     dict lappend ai::brain $topic $opinion
     misc::dump_data $ai::brain $ai::brainfile
+
+    return TRUE
 }
 
 proc ai::int::talk {nick chan topic} {
@@ -137,7 +139,7 @@ proc ai::learn {nick chan text} {
     # Search for AI mark
     set mark [lsearch $text $ai::mark]
     if {$mark <= 0} {
-        return
+        return FALSE
     }
 
     set topic [lindex $text $mark-1]
@@ -151,22 +153,22 @@ proc ai::learn {nick chan text} {
 
     if {[lsearch $ai::blacklist $topic] >= 0} {
         log::debug "ignoring blacklisted topic \"$topic\""
-        return
+        return FALSE
     }
     if {[string match "*:" $topic]} {
         # TODO: We should use this to our advantage, but we need to treat it specailly
         log::debug "ignoring topic that could be a nickname \"$topic\""
-        return
+        return FALSE
     }
 
-    ai::int::learn $mark $topic $text
+    return [ai::int::learn $mark $topic $text]
 }
 
 proc ai::talk {nick chan text} {
     set text [string tolower $text]
 
     if {[misc::get_day] != "friday"} {
-        return
+        return FALSE
     }
 
     # Check if we know any topic in the text (sentence)
@@ -174,7 +176,8 @@ proc ai::talk {nick chan text} {
         set mark [lsearch $text $topic]
         if {$mark >= 0} {
             ai::int::talk $nick $chan [lindex $text $mark]
-            return
+            return TRUE
         }
     }
+    return FALSE
 }
