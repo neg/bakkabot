@@ -142,6 +142,13 @@ proc ai::learn {nick chan text} {
 
     set topic [lindex $text $mark-1]
 
+    # Ignore topics containing ? ! . , or : based on the grammatical assumption that they
+    # aren't really topics but rather the end of the last sentence.
+    if {[regexp {([\?\!\.\,\:])+} $topic unused match]} {
+        putlog "ai, ignoring \"$topic\" as it contains \"$match\""
+        return FALSE
+    }
+
     if {[lsearch $ai::blacklist $topic] >= 0} {
         log::debug "ignoring blacklisted topic \"$topic\""
         return
