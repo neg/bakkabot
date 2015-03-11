@@ -6,13 +6,14 @@ set PRINT_DEBUG TRUE
 source "$SCRIPT_PATH/src/misc.tcl"
 source "$SCRIPT_PATH/src/stage.tcl"
 source "$SCRIPT_PATH/src/log.tcl"
-source "$SCRIPT_PATH/src/chicken.tcl"
+source "$SCRIPT_PATH/src/ascii.tcl"
 source "$SCRIPT_PATH/src/streck.tcl"
 source "$SCRIPT_PATH/src/ai.tcl"
 source "$SCRIPT_PATH/src/poll.tcl"
 source "$SCRIPT_PATH/src/help.tcl"
 
-bind pub - "!bakka" chicken::bind
+bind pub - "!bakka" ascii::chicken
+bind pub - "!hail" ascii::hail
 bind pub - "!streck" streck::add
 bind pub - "!strecklist" streck::list
 bind pub - "!strecktop" streck::top
