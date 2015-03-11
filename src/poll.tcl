@@ -111,6 +111,10 @@ proc poll::vote {nick host hand chan text} {
     set info [dict get $poll::data $id]
 
     set tmp [dict get $info votes]
+    if {![dict exists $tmp $vote]} {
+        putserv "PRIVMSG $chan :$nick: No such option.."
+        return
+    }
     dict incr tmp $vote
     dict set info votes $tmp
 
