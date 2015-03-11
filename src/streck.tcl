@@ -14,16 +14,17 @@ set streck::data [misc::slurp_file $streck::logfile]
 proc streck::checkbad {nick chan text} {
     # Map to try to catch leetspeak and other obfuscations
     set text [string map {0 o 4 a 3 e 1 i "_" "" "-" ""} $text]
+    set bad FALSE
     foreach badword $streck::badwords {
-        if {[string match -nocase "*$badword*" $text]} {
-            set msg "$nick gets a STRECK for talking about $badword"
-            putserv "PRIVMSG $chan :$msg"
-
-            dict incr $streck::data [string tolower $nick]
-            return TRUE
+        if {![string match -nocase "*$badword*" $text]} {
+            continue
         }
+        set msg "$nick gets a STRECK for talking about $badword"
+        putserv "PRIVMSG $chan :$msg"
+        dict incr $streck::data [string tolower $nick]
+        set bad TRUE
     }
-    return FALSE
+    return $bad
 }
 
 proc streck::int::add {nick} {
