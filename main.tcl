@@ -27,10 +27,11 @@ bind pub - "!help" help::print
 bind pubm - * catch_all
 
 proc catch_all {nick uhost hand chan text} {
-    if {[ai::learn $nick $chan $text]} {
+    # Currently we can't learn or talk about bad words
+    if {[streck::checkbad $nick $chan $text]} {
         return
     }
-    if {[streck::checkbad $nick $chan $text]} {
+    if {[ai::learn $nick $chan $text]} {
         return
     }
     if {[ai::talk $nick $chan $text]} {
