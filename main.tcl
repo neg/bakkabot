@@ -10,6 +10,7 @@ source "$SCRIPT_PATH/src/chicken.tcl"
 source "$SCRIPT_PATH/src/streck.tcl"
 source "$SCRIPT_PATH/src/ai.tcl"
 source "$SCRIPT_PATH/src/poll.tcl"
+source "$SCRIPT_PATH/src/help.tcl"
 
 bind pub - "!bakka" chicken::bind
 bind pub - "!streck" streck::add
@@ -22,6 +23,7 @@ bind pub - "!poll" poll::init
 bind pub - "!polls" poll::plist
 bind pub - "!status" poll::status
 bind pub - "!ai" ai::command
+bind pub - "!help" help::print
 bind pubm - * catch_all
 
 proc catch_all {nick uhost hand chan text} {
