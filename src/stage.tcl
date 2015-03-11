@@ -29,8 +29,8 @@ proc stage::stage {nick host chan desc timeout limit callback} {
             chan $chan \
             desc $desc \
             votes 0 \
-            voted-nicks [list $nick] \
-            voted-hosts [list $host] \
+            voted-nicks [list ""] \
+            voted-hosts [list ""] \
             limit $limit \
             callback $callback]
 
