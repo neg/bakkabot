@@ -1,11 +1,13 @@
 namespace eval ascii {
     proc get_chicken {{text "BAKKA!!!"}} {
         lappend chick \
+            "        " \
             "    \\   " \
             "    (o< $text" \
             " \\_//)  " \
             "  \_/_)  " \
-            "   _|_  "
+            "   _|_  " \
+            "        "
 
             return $chick
     }
@@ -23,43 +25,48 @@ namespace eval ascii {
         return $alien
     }
 
-    proc print {nick host hand chan text figure trigger} {
-       if {[lsearch -exact $text "!$trigger"] >= 0} {
-           # Print the first artwork without output (we know there will be more)
-           set art [get_$figure ""]
+    proc build {text figure} {
+        dict set triggers "!bakka" "chicken"
+        dict set triggers "!hail" "alien"
 
-           # Separate trigger from other words
-           set matches [lsearch -all $text "!$trigger"]
-           set text [lsearch -inline -all -not $text "!$trigger"]
+        # Create trigger regexp and create list of matches
+        set trigmatch [join [dict keys $triggers] "|"]
+        set matches [lsearch -all -regexp $text $trigmatch]
 
-           # More then 2 matches? Add them without output
-           for {set i 0} {$i < [expr [llength $matches] - 1]} {incr i} {
-               set art [misc::lmerge $art [get_$figure ""]]
-           }
+        # If we are part of a chain append figure and recurse
+        if {[llength $matches] != 0} {
+            set art [get_$figure ""]
+            # Figure out which next figure is and remove the trigger from text
+            set index [lindex $matches 0]
+            set newfigure [dict get $triggers [lindex $text $index]]
+            set newtext [lreplace $text $index $index]
+            return [misc::lmerge $art [build $newtext $newfigure]]
+        }
 
-           # Add the last artwork together with any potential non-trigger words
-           if {$text == ""} {
-               set art [misc::lmerge $art [get_$figure]]
-           } else {
-               set art [misc::lmerge $art [get_$figure $text]]
-           }
-
-       } elseif {$text == ""} {
-           set art [get_$figure]
-       } else {
-           set art [get_$figure $text]
-       }
-
-       foreach line $art {
-           putserv "PRIVMSG $chan : $line"
-       }
+        # Last figure in chain, if we still have text left use it as message,
+        # if not use the default text
+        if {$text != ""} {
+            return [get_$figure $text]
+        }
+        return [get_$figure]
     }
 
+    proc print {nick host hand chan text figure} {
+        # Print figure(s) but skip lines only containing on spaces,
+        # if for example we only print the chicken which have blank
+        # rows for better alignment when combined with the alien
+        foreach line [build $text $figure] {
+            if {![string is space $line]} {
+                putserv "PRIVMSG $chan : $line"
+            }
+        }
+   }
+
    proc chicken {nick host hand chan text} {
-       print $nick $host $hand $chan $text "chicken" "bakka"
+       print $nick $host $hand $chan $text "chicken"
    }
 
    proc hail {nick host hand chan text} {
-       print $nick $host $hand $chan $text "alien" "hail"
+       print $nick $host $hand $chan $text "alien"
    }
 }
